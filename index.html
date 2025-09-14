@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Website Favicon (Replaces old logo) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff9f43' d='M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 8C73.2 8 92 26.8 92 50S73.2 92 50 92 8 73.2 8 50 26.8 8 50 8zm0 18c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z'/%3E%3C/svg%3E">
     <title>Ultimate Egg Boiler Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ff9f43;
+            --primary-color: #ff9f43; /* Default Orange */
             --secondary-color: #feca57;
             --accent-color: #ff6b6b;
-            --background-color: #fff8f0;
+            --background-start: #fdefe0;
+            --background-end: #fbd6b1;
             --text-color: #3d3d3d;
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --card-shadow: rgba(0,0,0,0.1);
-            --cozy-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ff9f43' fill-opacity='0.05'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            --card-bg: rgba(255, 255, 255, 0.25); /* More transparent */
+            --card-shadow: rgba(45, 52, 54, 0.1);
+            --border-color: rgba(255, 255, 255, 0.5);
+            --ai-user-msg-bg: color-mix(in srgb, var(--primary-color) 25%, transparent);
+            --ai-bot-msg-bg: rgba(255, 255, 255, 0.4);
         }
 
         /* Dark Mode Styles */
         body.dark-mode {
-            --background-color: #1a1a1a;
+            --background-start: #2d3436;
+            --background-end: #000000;
             --text-color: #f0f0f0;
-            --card-bg: rgba(45, 45, 45, 0.92);
-            --card-shadow: rgba(0,0,0,0.3);
-            --cozy-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ff9f43' fill-opacity='0.03'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            --card-bg: rgba(10, 10, 10, 0.2);
+            --card-shadow: rgba(0,0,0,0.25);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --ai-bot-msg-bg: rgba(45, 52, 54, 0.5);
         }
 
         * {
@@ -37,70 +41,82 @@
         }
 
         body {
-            background-color: var(--background-color);
+            background-image: linear-gradient(120deg, var(--background-start), var(--background-end));
             color: var(--text-color);
             min-height: 100vh;
             padding: 2rem 1rem;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: background-image 0.5s ease, color 0.5s ease;
             position: relative;
             overflow-x: hidden;
-        }
-         body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: var(--cozy-texture);
-            opacity: 0.1;
-            z-index: -1;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
             z-index: 1;
         }
-
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: 0 10px 30px var(--card-shadow);
-            border-top: 5px solid var(--primary-color);
-            animation: fadeIn 1s ease-out;
+        
+        .background-circle {
+            position: fixed;
+            border-radius: 50%;
+            background-image: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            opacity: 0.1;
+            z-index: -1;
+            animation: move 30s infinite alternate;
+            filter: blur(50px);
         }
 
-        h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            margin-bottom: 0.25rem;
-            font-weight: 700;
+        .circle1 { width: 400px; height: 400px; top: 5%; left: 10%; }
+        .circle2 { width: 600px; height: 600px; bottom: 0%; right: 5%; animation-duration: 40s; }
+        
+        @keyframes move {
+          0% { transform: translateY(0) translateX(0) scale(1); }
+          100% { transform: translateY(-80px) translateX(50px) scale(1.2); }
         }
-        .tagline { font-size: clamp(1rem, 3vw, 1.1rem); opacity: 0.8;}
+
+        header { text-align: center; margin-bottom: 2rem; animation: fadeIn 1s ease-out; }
+        h1 { font-family: 'Poppins', sans-serif; font-size: clamp(2.2rem, 6vw, 3.2rem); margin-bottom: 0.25rem; font-weight: 700; text-shadow: 0 2px 15px rgba(0,0,0,0.1);}
+        .tagline { font-size: clamp(1rem, 3.5vw, 1.2rem); opacity: 0.8; }
 
         .card {
             background: var(--card-bg);
             border-radius: 24px;
-            padding: 1.75rem;
-            text-align: center;
+            padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px var(--card-shadow);
+            box-shadow: 0 15px 40px var(--card-shadow);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(25px); /* Increased blur for glassier effect */
+            -webkit-backdrop-filter: blur(25px);
             animation: slideUp 0.6s ease-out forwards;
             opacity: 0;
             transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
         }
+        /* Glossy edge effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), transparent, rgba(255, 255, 255, 0.15));
+        }
+
         .card:nth-of-type(2) { animation-delay: 0.1s; }
         .card:nth-of-type(3) { animation-delay: 0.2s; }
         .card:nth-of-type(4) { animation-delay: 0.3s; }
 
-
         h2.section-title {
-            font-size: clamp(1.4rem, 4vw, 1.6rem);
+            font-size: clamp(1.4rem, 4vw, 1.7rem);
             margin-bottom: 1.5rem;
             color: var(--primary-color);
             font-weight: 600;
@@ -111,137 +127,109 @@
         }
 
         /* Egg Selector */
-        .egg-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1.5rem;
-        }
+        .egg-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1.5rem; }
         .egg-type {
-            background: transparent;
-            border-radius: 20px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            cursor: pointer;
-            border: 2px solid var(--text-color);
-            opacity: 0.7;
-            transition: transform 0.3s ease, opacity 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+            background: transparent; border-radius: 20px; padding: 1.5rem 1rem;
+            text-align: center; cursor: pointer; border: 2px solid var(--border-color);
+            opacity: 0.7; transition: all 0.3s ease;
         }
-        .egg-type:hover {
-            transform: translateY(-8px);
-            opacity: 1;
-            border-color: var(--primary-color);
-        }
+        .egg-type:hover { transform: translateY(-8px) scale(1.03); opacity: 1; border-color: var(--primary-color); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
         .egg-type.selected {
-            border: 3px solid var(--primary-color);
-            background: rgba(var(--primary-color-rgb), 0.1);
-            transform: translateY(-5px) scale(1.05);
-            opacity: 1;
+            border: 3px solid var(--primary-color); background: var(--ai-user-msg-bg);
+            transform: translateY(-5px) scale(1.05); opacity: 1; box-shadow: 0 10px 30px -5px var(--primary-color);
         }
-         .egg-type i { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 1rem;}
+         .egg-type i { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 1rem; }
          .egg-type h3 { margin-bottom: 0.5rem; font-weight: 600; font-size: 1.1rem; }
          .egg-type p { font-size: 0.9rem; opacity: 0.8; }
-
-        /* Advanced Settings */
-        .advanced-settings { display: flex; justify-content: space-around; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
-        .setting { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-        .setting label { font-weight: 500; }
-        .setting select, .setting input {
-            background: var(--background-color);
-            color: var(--text-color);
-            border: 2px solid var(--text-color);
-            border-radius: 10px;
-            padding: 0.5rem 0.75rem;
-            text-align: center;
-            width: 120px;
-            transition: border-color 0.3s, background-color 0.3s;
-        }
-        .setting select:focus, .setting input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        /* Timer */
-        .timer-display { 
-            font-size: clamp(4rem, 15vw, 5rem);
-            font-weight: bold;
-            margin: 1.5rem 0; 
-            font-family: 'Poppins', monospace; 
-            color: var(--primary-color);
-            transition: transform 0.3s ease;
-        }
-        .egg-progress { height: 10px; background: rgba(var(--text-color-rgb), 0.1); border-radius: 5px; margin: 1.5rem 0; overflow: hidden; }
-        .egg-progress-bar { height: 100%; background: var(--primary-color); border-radius: 5px; width: 0%; transition: width 1s linear, background-color 0.4s; }
-
-        .timer-controls { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+         
+        /* Timer Area */
+        .timer-area { display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .egg-animation-container { width: 120px; height: 120px; }
+        .timer-display { font-size: clamp(4rem, 15vw, 5rem); font-weight: bold; font-family: 'Poppins', monospace; color: var(--primary-color); text-shadow: 0 0 20px color-mix(in srgb, var(--primary-color) 30%, transparent);}
+        .timer-controls { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
         button {
             background: var(--primary-color); border: none; color: white; padding: 0.8rem 1.75rem;
-            border-radius: 50px; cursor: pointer; font-weight: 600;
-            font-size: 1rem;
+            border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 1rem;
             box-shadow: 0 4px 15px rgba(0,0,0, 0.15); display: flex; align-items: center; gap: 0.5rem;
             transition: all 0.2s ease-in-out;
         }
-        button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0, 0.2); }
+        button:hover { transform: translateY(-3px); box-shadow: 0 6px 20px color-mix(in srgb, var(--primary-color) 40%, #000); }
         button:active { transform: translateY(1px); box-shadow: 0 2px 10px rgba(0,0,0, 0.2); }
         .stop-btn { background: var(--accent-color); }
         .reset-btn { background: #8395a7; }
 
         /* Optichain Boiler AI */
-        #aiBoiler { text-align: left; }
         .ai-response {
-            background: var(--background-color); border-radius: 15px;
-            padding: 1rem; margin-top: 1rem; min-height: 120px;
-            border: 1px solid rgba(var(--text-color-rgb), 0.2);
-            max-height: 350px; overflow-y: auto;
+            background-color: var(--background-start); border-radius: 15px; padding: 1rem; 
+            margin-top: 1rem; min-height: 150px; border: 1px solid var(--border-color);
+            max-height: 350px; overflow-y: auto; display: flex; flex-direction: column;
         }
         .ai-message {
-            margin-bottom: 0.75rem;
-            padding: 0.6rem 1rem;
-            border-radius: 18px;
-            max-width: 85%;
-            line-height: 1.5;
-            animation: fadeIn 0.5s ease-out;
-            clear: both;
+            margin-bottom: 0.75rem; padding: 0.7rem 1.1rem; border-radius: 18px;
+            max-width: 85%; line-height: 1.5; animation: slideIn 0.5s ease-out forwards;
+            clear: both; box-shadow: 0 3px 8px rgba(0,0,0,0.07); position: relative;
         }
-        .user-message {
-            background-color: rgba(var(--primary-color-rgb), 0.15);
-            margin-left: auto;
-            text-align: right;
-            float: right;
+        .user-message { background-color: var(--ai-user-msg-bg); margin-left: auto; text-align: left; float: right; }
+        .ai-message-content { background-color: var(--ai-bot-msg-bg); margin-right: auto; float: left; }
+        .ai-message.is-typing {
+            font-style: italic;
+            color: #8395a7;
         }
-        .ai-message-content {
-            background-color: rgba(108, 92, 231, 0.1);
-            margin-right: auto;
-            float: left;
+        .ai-message.is-typing span {
+            display: inline-block;
+            animation: bounce 1s infinite;
         }
+        .ai-message.is-typing span:nth-child(2) { animation-delay: 0.1s; }
+        .ai-message.is-typing span:nth-child(3) { animation-delay: 0.2s; }
+        
+        .ai-message-content strong { color: var(--primary-color); }
+        .ai-message-content ul, .ai-message-content ol { padding-left: 1.2rem; }
+        .ai-message-content li { margin-bottom: 0.5rem; }
         .ai-input-container { display: flex; margin-top: 1rem; gap: 0.75rem; }
         #aiInput {
-            flex: 1; padding: 0.75rem 1.25rem;
-            border-radius: 25px; border: 2px solid var(--text-color);
-            background: var(--background-color); color: var(--text-color);
-            transition: border-color 0.3s;
+            flex: 1; padding: 0.75rem 1.25rem; border-radius: 25px; 
+            border: 2px solid var(--border-color); background: var(--card-bg); 
+            color: var(--text-color); transition: border-color 0.3s;
         }
         #aiInput:focus { outline: none; border-color: var(--primary-color); }
         #sendAiBtn {
-            border-radius: 50%; width: 50px; height: 50px;
-            padding: 0; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            border-radius: 50%; width: 50px; height: 50px; padding: 0;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
             background: #6c5ce7;
         }
-        
-        .nutrition-info {
-            margin-top: 1rem; padding: 0.75rem 1rem;
-            background: rgba(108, 92, 231, 0.08); border-radius: 10px;
-            font-size: 0.9rem; border-left: 4px solid #6c5ce7;
-            text-align: left;
+
+        /* Customization Card */
+        .customization-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 1.5rem;
         }
-        
-        /* Customization & Footer */
-        .customization { display: flex; flex-direction: column; gap: 1.5rem; }
-        .custom-section { width: 100%; text-align: center; }
-        .custom-section h3 { margin-bottom: 0.75rem; }
-        .color-picker { display: flex; gap: 1rem; justify-content: center; }
-        .color-option { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.2s, border-color 0.2s; }
-        .color-option.selected { border-color: var(--background-color); transform: scale(1.15); }
-        
+        .customization-header h2 { margin-bottom: 0; }
+        #hideCustomizationBtn {
+            background: #8395a7;
+            font-size: 0.9rem;
+            padding: 0.5rem 1.2rem;
+        }
+        .customization-content {
+             display: flex; flex-direction: column; gap: 2rem; align-items: center;
+             transition: all 0.5s ease;
+             max-height: 500px;
+             overflow: hidden;
+        }
+        .customization-content.is-hidden {
+            max-height: 0;
+            gap: 0;
+            padding: 0;
+            opacity: 0;
+        }
+        .custom-section {width: 100%; text-align: center;}
+        .custom-section h3 { margin-bottom: 1rem; font-weight: 600;}
+        .color-picker { display: flex; gap: 1.5rem; justify-content: center; }
+        .color-option { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: transform 0.2s, border-color 0.2s; }
+        .color-option:hover { transform: scale(1.1); }
+        .color-option.selected { border-color: var(--primary-color); transform: scale(1.15); box-shadow: 0 0 15px var(--primary-color); }
         .dark-mode-toggle { display: flex; align-items: center; justify-content: center; gap: 1rem; }
         .switch { position: relative; display: inline-block; width: 50px; height: 28px;}
         .switch input { opacity: 0; width: 0; height: 0;}
@@ -251,70 +239,80 @@
         input:checked + .slider:before { transform: translateX(22px); }
 
         .footer { text-align: center; margin-top: 2rem; padding: 1rem; font-size: 1rem; opacity: 0.8; }
-        .footer a { color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.3s; }
-        .footer a:hover { text-decoration: underline; color: var(--secondary-color); }
-
+        
         /* Animations */
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .pulse { animation: pulse 1s infinite; }
-        .egg-boil { animation: pulse 2s ease-in-out infinite; }
-
-        @media (min-width: 620px) {
-            .customization { flex-direction: row; justify-content: space-around; align-items: center; }
+        @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .user-message { animation-name: slideInUser; }
+        @keyframes slideInUser { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
         }
+
     </style>
 </head>
 <body>
-    
+    <div class="background-circle circle1"></div>
+    <div class="background-circle circle2"></div>
+
     <div class="container">
         <header>
-            <h1>Ultimate Egg Boiler</h1>
-            <p class="tagline">Perfect eggs, intelligently timed for you.</p>
+            <h1>Ultimate Egg Boiler Pro</h1>
+            <p class="tagline">Perfect eggs, intelligently timed, with a world of recipes at your fingertips.</p>
         </header>
 
+        <!-- Settings Card -->
         <div class="card egg-settings">
             <h2 class="section-title"><i class="fas fa-egg"></i>1. Choose Your Doneness</h2>
             <div class="egg-selector">
-                <div class="egg-type selected" data-time="240" data-id="soft">
+                 <div class="egg-type selected" data-time="240" data-id="soft" data-progress-end="0.3">
                     <i class="fas fa-tint-slash"></i><h3>Soft Boiled</h3><p>Runny yolk</p>
                 </div>
-                <div class="egg-type" data-time="360" data-id="medium">
-                     <i class="fas fa-adjust"></i><h3>Medium Boiled</h3><p>Creamy yolk</p>
+                <div class="egg-type" data-time="360" data-id="medium" data-progress-end="0.6">
+                     <i class="fas fa-adjust"></i><h3>Medium Boiled</h3><p>Jammy yolk</p>
                 </div>
-                <div class="egg-type" data-time="540" data-id="hard">
+                <div class="egg-type" data-time="540" data-id="hard" data-progress-end="0.9">
                      <i class="fas fa-circle"></i><h3>Hard Boiled</h3><p>Set yolk</p>
                 </div>
-                <div class="egg-type" data-time="720" data-id="welldone">
+                <div class="egg-type" data-time="720" data-id="welldone" data-progress-end="1.0">
                      <i class="fas fa-egg"></i><h3>Well Done</h3><p>Fully cooked</p>
                 </div>
             </div>
             <h2 class="section-title" style="margin-top: 2.5rem;"><i class="fas fa-sliders-h"></i>2. Fine-Tune Settings</h2>
-            <div class="advanced-settings">
-                <div class="setting">
+             <div class="advanced-settings" style="display: flex; justify-content: space-around; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                 <div class="setting" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
                     <label for="eggSize">Egg Size</label>
-                    <select id="eggSize">
+                    <select id="eggSize" style="background: var(--background-start); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.5rem 0.75rem;">
                         <option value="0" selected>Medium</option>
                         <option value="60">Large (+1 min)</option>
                         <option value="120">X-Large (+2 min)</option>
                     </select>
                 </div>
-                <div class="setting">
+                <div class="setting" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
                     <label for="altitude">Altitude (meters)</label>
-                    <input type="number" id="altitude" value="0" step="100">
+                    <input type="number" id="altitude" value="0" step="100" style="background: var(--background-start); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.5rem; width: 100px; text-align: center;">
                 </div>
-                <div class="setting">
+                 <div class="setting" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
                     <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" value="1" min="1" max="12">
+                    <input type="number" id="quantity" value="1" min="1" max="12" style="background: var(--background-start); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.5rem; width: 100px; text-align: center;">
                 </div>
             </div>
         </div>
-
+        
+        <!-- Timer Card -->
         <div class="card timer-container">
             <h2 class="section-title"><i class="fas fa-stopwatch"></i>3. Start Cooking</h2>
-            <div class="timer-display" id="timer">04:00</div>
-            <div class="egg-progress"><div class="egg-progress-bar" id="eggProgress"></div></div>
+            <div class="timer-area">
+                <div class="egg-animation-container" id="eggAnimation">
+                    <svg viewBox="0 0 100 125" style="--yolk-color: #FFC300; --yolk-opacity: 0.8;">
+                        <path fill="#f0f0f0" d="M50,5 C25,5 10,40 10,70 C10,100 25,115 50,115 C75,115 90,100 90,70 C90,40 75,5 50,5 Z"/>
+                        <circle id="yolk" cx="50" cy="70" r="25" fill="var(--yolk-color)" opacity="var(--yolk-opacity)" style="transition: all 1s linear;"/>
+                    </svg>
+                </div>
+                <div class="timer-display" id="timer">04:00</div>
+            </div>
             <div class="timer-controls">
                 <button class="start-btn" id="startBtn" aria-label="Start Timer"><i class="fas fa-play"></i>Start</button>
                 <button class="stop-btn" id="stopBtn" aria-label="Pause Timer"><i class="fas fa-pause"></i>Pause</button>
@@ -322,288 +320,432 @@
             </div>
         </div>
 
+        <!-- AI Chat Card -->
         <div class="card" id="aiBoiler">
             <h2 class="section-title"><i class="fas fa-robot"></i>Optichain Boiler AI</h2>
-            <p>Chat with our AI chef for global recipes, tips, or timer commands!</p>
+            <p style="text-align:center;">Chat with our AI chef for global recipes, tips, or timer commands!</p>
             <div class="ai-response" id="aiResponse">
                 <div class="ai-message ai-message-content">
-                    Hello! Ask me for recipes, tips, or try saying "Set timer for soft boiled eggs."
+                    Hello! I've been trained with many new recipes. You can now ask me for **Bibimbap**, **Breakfast Tacos**, **Deviled Eggs**, or simply "how to scramble eggs." How can I help you today?
                 </div>
             </div>
             <div class="ai-input-container">
-                <input type="text" id="aiInput" placeholder="Ask 'Shakshuka recipe'...">
+                <input type="text" id="aiInput" placeholder="Ask 'How to make Bibimbap?'...">
                 <button id="sendAiBtn" aria-label="Send message to AI"><i class="fas fa-paper-plane"></i></button>
-            </div>
-            <div class="nutrition-info" id="nutritionInfo" style="display: none;">
-                <!-- Content injected by JS -->
             </div>
         </div>
 
+        <!-- Customization Card -->
         <div class="card customization">
-             <div class="custom-section">
-                <h3>Theme Color</h3>
-                <div class="color-picker" id="colorPicker">
-                    <div class="color-option selected" style="background-color: #ff9f43;" data-primary="#ff9f43" data-rgb="255,159,67"></div>
-                    <div class="color-option" style="background-color: #54a0ff;" data-primary="#54a0ff" data-rgb="84,160,255"></div>
-                    <div class="color-option" style="background-color: #a29bfe;" data-primary="#a29bfe" data-rgb="162,155,254"></div>
-                    <div class="color-option" style="background-color: #ff7979;" data-primary="#ff7979" data-rgb="255,121,121"></div>
+             <div class="customization-header">
+                <h2 class="section-title"><i class="fas fa-palette"></i>Customize</h2>
+                <button id="hideCustomizationBtn"><i class="fas fa-check"></i> Done</button>
+             </div>
+             <div class="customization-content" id="customizationContent">
+                <div class="custom-section">
+                    <h3>Theme Color</h3>
+                     <div class="color-picker" id="colorPicker">
+                        <div class="color-option selected" style="background-color: #ff9f43;" data-primary="#ff9f43" title="Sunset Orange"></div>
+                        <div class="color-option" style="background-color: #54a0ff;" data-primary="#54a0ff" title="Ocean Blue"></div>
+                        <div class="color-option" style="background-color: #a29bfe;" data-primary="#a29bfe" title="Aurora Violet"></div>
+                        <div class="color-option" style="background-color: #2ecc71;" data-primary="#2ecc71" title="Zen Green"></div>
+                        <div class="color-option" style="background-color: #ff7979;" data-primary="#ff7979" title="Coral Pink"></div>
+                    </div>
                 </div>
-            </div>
-             <div class="custom-section">
-                <div class="dark-mode-toggle">
-                    <h3>Dark Mode</h3>
-                    <label class="switch">
-                      <input type="checkbox" id="darkModeToggle">
-                      <span class="slider"></span>
-                    </label>
-                </div>
+                 <div class="custom-section">
+                    <div class="dark-mode-toggle">
+                        <h3>Dark Mode</h3>
+                        <label class="switch">
+                          <input type="checkbox" id="darkModeToggle">
+                          <span class="slider"></span>
+                        </label>
+                    </div>
+                 </div>
              </div>
         </div>
 
         <div class="footer">
-             <p>Enhanced with <i class="fas fa-heart" style="color: var(--accent-color);"></i> from the original by Cozytustudios</p>
-             <p>Visit our showcase: <a href="https://cozytusstudio-showcase-9bg3htb.gamma.site/cozytustudio" target="_blank" rel="noopener noreferrer">Cozytustudio Showcase</a></p>
+             <p>Enhanced with <i class="fas fa-heart" style="color: var(--accent-color);"></i> by your AI Assistant</p>
         </div>
     </div>
-
     <audio id="alarmSound" src="https://assets.mixkit.co/sfx/preview/mixkit-kitchen-microwave-1106.mp3" preload="auto"></audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
     
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- DOM Elements ---
-        const UIElements = {
-            timerDisplay: document.getElementById('timer'),
-            startBtn: document.getElementById('startBtn'),
-            stopBtn: document.getElementById('stopBtn'),
-            resetBtn: document.getElementById('resetBtn'),
-            eggTypes: document.querySelectorAll('.egg-type'),
-            alarmSound: document.getElementById('alarmSound'),
-            colorPicker: document.getElementById('colorPicker'),
-            eggProgress: document.getElementById('eggProgress'),
-            eggSize: document.getElementById('eggSize'),
-            altitude: document.getElementById('altitude'),
-            quantity: document.getElementById('quantity'),
-            darkModeToggle: document.getElementById('darkModeToggle'),
-            aiInput: document.getElementById('aiInput'),
-            sendAiBtn: document.getElementById('sendAiBtn'),
-            aiResponse: document.getElementById('aiResponse'),
-            nutritionInfo: document.getElementById('nutritionInfo'),
-        };
+    // --- Service Worker for Background Timer ---
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service worker registered successfully'))
+            .catch(err => console.log('Service worker registration failed: ', err));
+    }
 
-        // --- Application State ---
-        const AppState = {
-            countdown: null,
-            totalSeconds: 240,
-            secondsRemaining: 240,
-            baseTime: 240,
-            isRunning: false,
-        };
-        
-        // --- Data ---
-        const EggData = {
-            recipes: {
-                shakshuka: { name: "Shakshuka (Middle East/North Africa)", description: "Eggs poached in a savory sauce of tomatoes, chili peppers, and onions. Perfect with crusty bread.", calories: 350, protein: "18g" },
-                huevosrancheros: { name: "Huevos Rancheros (Mexico)", description: "Fried eggs on corn tortillas with a tomato-chili sauce, often served with beans and avocado.", calories: 420, protein: "20g" },
-                tamagoyaki: { name: "Tamagoyaki (Japan)", description: "A sweet and savory Japanese rolled omelette, a staple in bento boxes.", calories: 180, protein: "12g" },
-                centuryegg: { name: "Century Egg (China)", description: "A unique delicacy of preserved duck, chicken, or quail eggs, resulting in a dark, creamy yolk and jelly-like white.", calories: 155, protein: "14g" },
-                scotchegg: { name: "Scotch Egg (UK)", description: "A hard or soft-boiled egg wrapped in sausage meat, coated in breadcrumbs, and fried. A picnic classic.", calories: 320, protein: "19g" },
-                eggcurry: { name: "Egg Curry (India)", description: "Hard-boiled eggs in a rich, spicy curry sauce made with tomatoes, onions, and aromatic spices.", calories: 310, protein: "17g" },
-                menemen: { name: "Menemen (Turkey)", description: "A traditional dish of scrambled eggs cooked with tomatoes, green peppers, and spices in a metal pan.", calories: 280, protein: "15g" }
+    const UIElements = {
+        timerDisplay: document.getElementById('timer'),
+        startBtn: document.getElementById('startBtn'),
+        stopBtn: document.getElementById('stopBtn'),
+        resetBtn: document.getElementById('resetBtn'),
+        eggTypes: document.querySelectorAll('.egg-type'),
+        alarmSound: document.getElementById('alarmSound'),
+        colorPicker: document.getElementById('colorPicker'),
+        yolk: document.getElementById('yolk'),
+        eggSize: document.getElementById('eggSize'),
+        altitude: document.getElementById('altitude'),
+        quantity: document.getElementById('quantity'),
+        darkModeToggle: document.getElementById('darkModeToggle'),
+        aiInput: document.getElementById('aiInput'),
+        sendAiBtn: document.getElementById('sendAiBtn'),
+        aiResponse: document.getElementById('aiResponse'),
+        hideCustomizationBtn: document.getElementById('hideCustomizationBtn'),
+        customizationContent: document.getElementById('customizationContent'),
+    };
+
+    const AppState = {
+        countdown: null,
+        totalSeconds: 240,
+        secondsRemaining: 240,
+        baseTime: 240,
+        progressTarget: 0.3,
+        isRunning: false,
+    };
+
+    const EggData = {
+        recipes: {
+            // --- NEW RECIPES FROM LOVEANDLEMONS.COM ---
+            scrambledeggs: {
+                name: "Perfect Scrambled Eggs",
+                keywords: ["scrambled", "scramble", "fluffy"],
+                description: "A breakfast classic. Making them is easy, but a few simple tricks take them from good to great!",
+                details: `<strong>Ingredients:</strong><ul><li>2 large Eggs</li><li>2 tsp Milk (optional)</li><li>1/2 tbsp Butter</li><li>Salt and freshly ground black pepper</li></ul><strong>Instructions:</strong><ol><li>Lightly whisk the eggs, milk (if using), salt, and pepper.</li><li>Melt the butter in a small nonstick skillet over medium-low heat.</li><li>Pour in the egg mixture. Let cook for a few seconds without stirring.</li><li>Gently pull the eggs across the pan with a spatula until large, soft curds form.</li><li>Remove from the heat when they are still slightly moist. They will continue to cook. Serve immediately.</li></ol>`
             },
-            tips: [
-                "For easier peeling, add a teaspoon of baking soda or a pinch of salt to the boiling water.",
-                "Use older eggs for hard boiling as the membrane is less attached to the shell, making them easier to peel.",
-                "To prevent the green ring around hard-boiled yolks, cool the eggs immediately in an ice bath after cooking.",
-                "Room temperature eggs are less likely to crack when submerged in boiling water.",
-                "For perfect poached eggs, add a splash of vinegar to the water to help the egg whites set faster.",
-                "When making an omelette, a little water or milk can make it fluffier."
-            ],
-            donenessKeywords: {
-                soft: ["soft", "runny", "dippy", "3-min", "4-min"],
-                medium: ["medium", "jammy", "creamy", "5-min", "6-min"],
-                hard: ["hard", "set", "firm", "7-min", "8-min", "9-min"],
-                welldone: ["well-done", "fully-cooked", "10-min", "12-min"]
+            sunnysideup: {
+                name: "Sunny-Side-Up Eggs",
+                keywords: ["sunny side up", "fried egg", "runny yolk"],
+                description: "The perfect fried egg with a beautiful, runny yolk and fully cooked whites.",
+                details: `<strong>Ingredients:</strong><ul><li>1 tbsp Olive Oil or Butter</li><li>2 large Eggs</li><li>Salt and freshly ground black pepper</li></ul><strong>Instructions:</strong><ol><li>Heat oil or butter in a skillet over medium-low heat.</li><li>Crack the eggs into the pan, being careful not to break the yolks.</li><li>Cook for 2 to 3 minutes, until the whites are set.</li><li>For a gentler cook, you can cover the pan for the last minute to help steam the tops of the whites.</li><li>Season with salt and pepper and serve.</li></ol>`
+            },
+            poachedeggs: {
+                name: "How to Poach an Egg",
+                keywords: ["poached", "poach"],
+                description: "Master the art of poaching for a healthy and elegant egg preparation.",
+                details: `<strong>Ingredients:</strong><ul><li>1 large Egg</li><li>1 tsp White Vinegar (optional, but helps)</li></ul><strong>Instructions:</strong><ol><li>Bring a pot of water to a simmer (not a rolling boil). Add a splash of vinegar.</li><li>Crack an egg into a small bowl.</li><li>Stir the water to create a gentle vortex. Carefully slide the egg into the center.</li><li>Cook for about 3-4 minutes for a runny yolk and set whites.</li><li>Remove with a slotted spoon and gently pat dry.</li></ol>`
+            },
+            avocadotoast: {
+                name: "Avocado Toast with Egg",
+                keywords: ["avocado toast", "toast"],
+                description: "A popular, satisfying, and nutritious breakfast or lunch.",
+                details: `<strong>Ingredients:</strong><ul><li>1 slice good-quality Bread, toasted</li><li>1/2 Avocado</li><li>1 Egg, cooked your favorite way</li><li>Salt, pepper, and red pepper flakes to taste</li></ul><strong>Instructions:</strong><ol><li>Mash the avocado with a fork and spread it on the toast.</li><li>Season with salt and pepper.</li><li>Top with a sunny-side-up, poached, or fried egg.</li><li>Sprinkle with red pepper flakes if desired.</li></ol>`
+            },
+            breakfasttacos: {
+                name: "Breakfast Tacos",
+                keywords: ["breakfast tacos", "taco"],
+                description: "A fun, flavorful, and satisfying breakfast dish that’s easy to customize.",
+                details: `<strong>Ingredients:</strong><ul><li>4 small Corn or Flour Tortillas</li><li>4 Eggs, scrambled</li><li>Toppings: salsa, avocado, cheese, cilantro</li></ul><strong>Instructions:</strong><ol><li>Warm the tortillas in a dry skillet or microwave.</li><li>Prepare scrambled eggs.</li><li>Assemble the tacos by filling each tortilla with eggs and your desired toppings.</li></ol>`
+            },
+            breakfastburrito: {
+                name: "Breakfast Burrito",
+                keywords: ["breakfast burrito", "burrito"],
+                description: "A hearty, portable breakfast packed with eggs, potatoes, and other delicious fillings.",
+                details: `<strong>Ingredients:</strong><ul><li>1 large Flour Tortilla</li><li>2 Eggs, scrambled</li><li>1/4 cup cooked Potato, diced</li><li>1/4 cup cooked Black Beans</li><li>Shredded cheese and salsa</li></ul><strong>Instructions:</strong><ol><li>Warm the tortilla. Layer the cheese, eggs, potatoes, and beans down the center.</li><li>Top with salsa. Fold in the sides of the tortilla, then tightly roll it up.</li><li>You can grill it in a pan for a minute per side to seal it and make it crispy.</li></ol>`
+            },
+             migas: {
+                name: "Migas",
+                keywords: ["migas", "tex-mex", "tortilla strips"],
+                description: "A traditional Tex-Mex breakfast of eggs scrambled with crispy tortilla strips and veggies.",
+                details: `<strong>Ingredients:</strong><ul><li>3 Corn Tortillas, cut into strips</li><li>2 tbsp Olive Oil</li><li>2 Eggs, whisked</li><li>1/4 Onion, chopped</li><li>1 Jalapeño, chopped</li><li>Toppings: Cotija cheese, cilantro, avocado</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a skillet and fry the tortilla strips until crisp. Remove and set aside.</li><li>Sauté the onion and jalapeño in the same pan until soft.</li><li>Return half the tortilla strips to the pan. Pour over the eggs and scramble until just set.</li><li>Serve topped with the remaining crispy strips and other toppings.</li></ol>`
+            },
+            eggsalad: {
+                name: "Best Egg Salad",
+                keywords: ["egg salad", "salad sandwich"],
+                description: "A classic, creamy, and flavorful egg salad, perfect for sandwiches or lettuce wraps.",
+                details: `<strong>Ingredients:</strong><ul><li>6 Hard-Boiled Eggs, peeled and chopped</li><li>1/4 cup Mayonnaise</li><li>1 tsp Dijon Mustard</li><li>2 tbsp chopped Celery</li><li>2 tbsp chopped Red Onion</li><li>Salt and pepper</li></ul><strong>Instructions:</strong><ol><li>In a medium bowl, stir together the mayonnaise, mustard, celery, red onion, salt, and pepper.</li><li>Gently fold in the chopped hard-boiled eggs.</li><li>Serve chilled. Fantastic on a sandwich with lettuce and tomato!</li></ol>`
+            },
+            deviledeggs: {
+                name: "Deviled Eggs",
+                keywords: ["deviled eggs", "appetizer", "party food"],
+                description: "A classic party appetizer that's always a crowd-pleaser.",
+                details: `<strong>Ingredients:</strong><ul><li>6 Hard-Boiled Eggs</li><li>3 tbsp Mayonnaise</li><li>1 tsp Dijon Mustard</li><li>1 tsp White Vinegar</li><li>Paprika, for garnish</li></ul><strong>Instructions:</strong><ol><li>Halve the hard-boiled eggs lengthwise. Remove the yolks and place them in a small bowl.</li><li>Mash the yolks with a fork. Mix in the mayonnaise, mustard, and vinegar until smooth. Season with salt and pepper.</li><li>Pipe or spoon the yolk mixture back into the egg white halves.</li><li>Garnish with a sprinkle of paprika.</li></ol>`
+            },
+             bibimbap: {
+                name: "Bibimbap (Korean Mixed Rice)",
+                keywords: ["bibimbap", "korean", "rice bowl"],
+                description: "A signature Korean dish. The name translates to 'mixed rice with meat and assorted vegetables.'",
+                details: `<strong>Ingredients:</strong><ul><li>1 cup cooked Rice</li><li>Assorted vegetables (spinach, carrots, mushrooms), sautéed</li><li>A sunny-side-up Egg</li><li>Gochujang (Korean chili paste) to taste</li><li>Sesame oil</li></ul><strong>Instructions:</strong><ol><li>Place the hot cooked rice in a bowl.</li><li>Artfully arrange the sautéed vegetables on top of the rice.</li><li>Place a freshly cooked sunny-side-up egg in the center.</li><li>Serve with gochujang and a drizzle of sesame oil. Mix everything together before eating.</li></ol>`
+            },
+            friedrice: {
+                name: "Egg Fried Rice",
+                keywords: ["fried rice", "chinese", "takeout"],
+                description: "A takeout classic that’s easy to make at home. The key is using day-old, chilled rice.",
+                details: `<strong>Ingredients:</strong><ul><li>2 cups cooked and chilled Rice</li><li>1 tbsp Sesame Oil</li><li>2 Eggs, whisked</li><li>1 cup frozen Peas and Carrots</li><li>2 cloves Garlic, minced</li><li>2 tbsp Soy Sauce</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a large skillet or wok. Add garlic and cook until fragrant.</li><li>Push the garlic aside and pour in the eggs, scrambling them.</li><li>Add the rice and vegetables, breaking up any clumps. Stir-fry for 3-5 minutes.</li><li>Stir in the soy sauce. Serve immediately.</li></ol>`
+            },
+            // --- UPDATED AND EXISTING RECIPES ---
+            frittata: {
+                name: "Italian Frittata",
+                keywords: ["frittata", "italian", "crustless", "quiche", "baked"],
+                description: "A versatile Italian egg-based dish similar to a crustless quiche, filled with your choice of ingredients.",
+                details: `<strong>Ingredients:</strong><ul><li>8 large Eggs</li><li>1/4 cup Milk or Cream</li><li>1/2 cup Grated Parmesan Cheese</li><li>2 cups of Fillings (e.g., cooked veggies, sausage, spinach)</li><li>1 tbsp Olive Oil</li></ul><strong>Instructions:</strong><ol><li>Preheat oven to 375°F (190°C).</li><li>Whisk eggs, milk, cheese, salt, and pepper.</li><li>In an oven-safe skillet, sauté your fillings.</li><li>Pour egg mixture over the fillings. Cook on stovetop for 3-5 minutes until edges set.</li><li>Transfer to oven and bake for 10-15 minutes until set.</li></ol>`
+            },
+            shakshuka: {
+                name: "Shakshuka",
+                keywords: ["shakshuka", "middle east", "north africa", "poached"],
+                description: "A delicious dish of eggs poached in a flavorful tomato and pepper sauce.",
+                details: `<strong>Ingredients:</strong><ul><li>1 tbsp Olive Oil</li><li>1 large Onion, chopped</li><li>1 red Bell Pepper, chopped</li><li>3 cloves Garlic, minced</li><li>1 tsp Cumin & Paprika</li><li>1 (28-ounce) can Crushed Tomatoes</li><li>6 large Eggs</li><li>Feta cheese and Parsley for garnish</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a large skillet. Sauté onion and bell pepper until soft.</li><li>Stir in garlic and spices. Pour in tomatoes, season, and simmer for 10 minutes.</li><li>Make small wells in the sauce and crack an egg into each one.</li><li>Cover and cook for 5-8 minutes, until egg whites are set but yolks are runny.</li><li>Garnish and serve with crusty bread.</li></ol>`
+            },
+            huevosrancheros: {
+                name: "Huevos Rancheros",
+                keywords: ["huevos rancheros", "mexican", "rancher", "fried", "tortilla"],
+                description: "Fried eggs served on corn tortillas and smothered in a tomato-chili sauce.",
+                details: `<strong>Ingredients:</strong><ul><li>4 Corn Tortillas</li><li>4 Eggs</li><li>1 (15-ounce) can Fire-Roasted Tomatoes</li><li>1/2 Onion, chopped</li><li>1 Jalapeño, minced</li><li>Toppings: beans, avocado, cotija cheese</li></ul><strong>Instructions:</strong><ol><li>Make the sauce: Sauté onion and jalapeño, add tomatoes and simmer.</li><li>Lightly fry tortillas and set aside. Fry eggs to your liking.</li><li>To serve, place tortillas on a plate, top with eggs, and spoon sauce over them.</li></ol>`
+            },
+            menemen: {
+                name: "Menemen (Turkey)",
+                keywords: ["menemen", "turkish", "scrambled", "tomato"],
+                description: "A traditional Turkish dish of eggs scrambled with tomatoes, peppers, and spices.",
+                details: `<strong>Ingredients:</strong><ul><li>4 Eggs, lightly beaten</li><li>4 ripe Tomatoes, grated</li><li>2 Green Bell Peppers, chopped</li><li>1 large Onion, chopped</li><li>2 tbsp Olive Oil</li></ul><strong>Instructions:</strong><ol><li>In a pan, sauté onion and peppers until very soft.</li><li>Add tomatoes and spices, and cook until a thick sauce forms.</li><li>Pour in the beaten eggs. Cook, stirring gently, until softly set but still moist.</li><li>Serve immediately in the pan with bread.</li></ol>`
             }
-        };
+        },
+        tips: [
+            "For fluffier scrambled eggs, whisk them vigorously for a full minute to incorporate more air.",
+            "Use day-old, chilled rice for the best fried rice. Fresh rice has too much moisture and will steam instead of fry.",
+            "A splash of vinegar in your poaching water helps the egg whites coagulate faster, leading to a neater shape.",
+            "For easier peeling, use eggs that are a week or two old. The membrane is less attached to the shell.",
+            "To prevent the green ring around hard-boiled yolks, cool the eggs immediately in an ice bath after cooking."
+        ],
+        donenessKeywords: {
+            soft: ["soft", "runny", "dippy", "4-min"],
+            medium: ["medium", "jammy", "creamy", "6-min"],
+            hard: ["hard", "set", "firm", "9-min"],
+            welldone: ["well-done", "fully-cooked", "12-min"]
+        }
+    };
+    
+    // --- Core Timer & UI Functions ---
 
-        // --- Core Functions ---
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainderSeconds = seconds % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(remainderSeconds).padStart(2, '0')}`;
+    };
 
-        const formatTime = (seconds) => {
-            const minutes = Math.floor(seconds / 60);
-            const remainderSeconds = seconds % 60;
-            return `${String(minutes).padStart(2, '0')}:${String(remainderSeconds).padStart(2, '0')}`;
-        };
-
-        const updateDisplay = () => {
-            UIElements.timerDisplay.textContent = formatTime(AppState.secondsRemaining);
-            const progress = AppState.totalSeconds > 0 ? ((AppState.totalSeconds - AppState.secondsRemaining) / AppState.totalSeconds) * 100 : 0;
-            UIElements.eggProgress.style.width = `${progress}%`;
-            document.title = `${formatTime(AppState.secondsRemaining)} - Egg Timer`;
-            
-            if (AppState.isRunning && !UIElements.timerDisplay.classList.contains('egg-boil')) {
-                UIElements.timerDisplay.classList.add('egg-boil');
-            } else if (!AppState.isRunning) {
-                UIElements.timerDisplay.classList.remove('egg-boil');
-            }
-        };
+    const updateDisplay = () => {
+        UIElements.timerDisplay.textContent = formatTime(AppState.secondsRemaining);
+        const progress = AppState.totalSeconds > 0 ? (AppState.totalSeconds - AppState.secondsRemaining) / AppState.totalSeconds : 0;
+        const yolkHardness = Math.min(progress / AppState.progressTarget, 1);
+        const yolkColorHue = 45 - (yolkHardness * 20); // More dramatic color shift
+        const yolkOpacity = 0.8 + (yolkHardness * 0.2);
         
-        const calculateTotalSeconds = () => {
-            // Add basic validation for inputs
-            const altitudeValue = Math.max(0, parseInt(UIElements.altitude.value, 10) || 0);
-            const quantityValue = Math.max(1, parseInt(UIElements.quantity.value, 10) || 1);
-            const sizeAdjustment = parseInt(UIElements.eggSize.value, 10);
+        UIElements.yolk.style.setProperty('--yolk-color', `hsl(${yolkColorHue}, 100%, 50%)`);
+        UIElements.yolk.style.setProperty('--yolk-opacity', yolkOpacity);
 
-            // Water boiling point decreases ~1°C per 300m. Roughly add 10% cook time per 1000m.
-            const altitudeAdjustment = Math.floor(AppState.baseTime * (altitudeValue / 10000));
-            // Add a slight time increase for more eggs (more thermal mass to heat).
-            const quantityAdjustment = Math.floor(AppState.baseTime * ((quantityValue - 1) * 0.05));
+        document.title = `${formatTime(AppState.secondsRemaining)} - Egg Timer`;
+    };
 
-            AppState.totalSeconds = AppState.baseTime + sizeAdjustment + altitudeAdjustment + quantityAdjustment;
-            resetTimer();
-        };
+    const calculateTotalSeconds = () => {
+        const altitudeValue = Math.max(0, parseInt(UIElements.altitude.value, 10) || 0);
+        const quantityValue = Math.max(1, parseInt(UIElements.quantity.value, 10) || 1);
+        const sizeAdjustment = parseInt(UIElements.eggSize.value, 10);
+        const altitudeAdjustment = Math.floor(AppState.baseTime * (altitudeValue / 10000));
+        const quantityAdjustment = Math.floor(AppState.baseTime * ((quantityValue - 1) * 0.05));
+        AppState.totalSeconds = AppState.baseTime + sizeAdjustment + altitudeAdjustment + quantityAdjustment;
+        resetTimer();
+    };
+
+    const finishTimer = () => {
+        clearInterval(AppState.countdown);
+        UIElements.alarmSound.play();
+        AppState.isRunning = false;
+        UIElements.startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+    };
+
+    const startTimer = () => {
+        if (AppState.isRunning || AppState.secondsRemaining <= 0) return;
+        AppState.isRunning = true;
+        UIElements.startBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
         
-        const finishTimer = () => {
-            clearInterval(AppState.countdown);
-            UIElements.timerDisplay.classList.add('pulse');
-            UIElements.timerDisplay.classList.remove('egg-boil');
-            UIElements.alarmSound.play();
-            AppState.isRunning = false;
-            UIElements.startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
-            if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('Eggs are ready!', {
-                    body: 'Your perfectly cooked eggs are waiting for you.',
-                    icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath fill="%23ff9f43" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 8C73.2 8 92 26.8 92 50S73.2 92 50 92 8 73.2 8 50 26.8 8 50 8zm0 18c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z"/%3E%3C/svg%3E'
-                });
-            }
-        };
-
-        const startTimer = () => {
-            if (AppState.isRunning || AppState.secondsRemaining <= 0) return;
-            AppState.isRunning = true;
-            UIElements.startBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
-            AppState.countdown = setInterval(() => {
-                AppState.secondsRemaining--;
-                updateDisplay();
-                if (AppState.secondsRemaining <= 0) finishTimer();
-            }, 1000);
-        };
-
-        const stopTimer = () => {
-            if (!AppState.isRunning) return;
-            clearInterval(AppState.countdown);
-            AppState.isRunning = false;
-        };
-
-        const resetTimer = () => {
-            stopTimer();
-            AppState.secondsRemaining = AppState.totalSeconds;
-            UIElements.timerDisplay.classList.remove('pulse', 'egg-boil');
-            UIElements.alarmSound.pause();
-            UIElements.alarmSound.currentTime = 0;
-            UIElements.startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ command: 'start', seconds: AppState.secondsRemaining });
+        }
+        
+        AppState.countdown = setInterval(() => {
+            AppState.secondsRemaining--;
             updateDisplay();
-        };
+            if (AppState.secondsRemaining <= 0) finishTimer();
+        }, 1000);
+    };
 
-        // --- Event Handlers ---
+    const stopTimer = () => {
+        if (!AppState.isRunning) return;
+        clearInterval(AppState.countdown);
+        AppState.isRunning = false;
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ command: 'stop' });
+        }
+    };
+    
+    const resetTimer = () => {
+        stopTimer();
+        AppState.secondsRemaining = AppState.totalSeconds;
+        UIElements.alarmSound.pause();
+        UIElements.alarmSound.currentTime = 0;
+        UIElements.startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+        updateDisplay();
+    };
+    
+    // --- AI Chat Functions ---
+    const addMessageToChat = (message, isUser = false) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('ai-message', isUser ? 'user-message' : 'ai-message-content');
+        messageElement.innerHTML = message;
+        UIElements.aiResponse.appendChild(messageElement);
+        UIElements.aiResponse.scrollTop = UIElements.aiResponse.scrollHeight;
+        return messageElement;
+    };
+
+    const showTypingIndicator = () => {
+        const typingElement = document.createElement('div');
+        typingElement.classList.add('ai-message', 'ai-message-content', 'is-typing');
+        typingElement.innerHTML = 'Thinking<span>.</span><span>.</span><span>.</span>';
+        UIElements.aiResponse.appendChild(typingElement);
+        UIElements.aiResponse.scrollTop = UIElements.aiResponse.scrollHeight;
+        return typingElement;
+    };
+    
+    const getAIResponse = (query) => {
+        query = query.toLowerCase().replace(/[^a-zA-Z0-9\s-]/g, '').trim();
+
+        // AI Recommendation Engine
+        if (query.includes("recommend") || query.includes("suggest") || query.includes("inspire") || query.includes("what should i make")) {
+            const recipeKeys = Object.keys(EggData.recipes);
+            const randomKey = recipeKeys[Math.floor(Math.random() * recipeKeys.length)];
+            const recommendedRecipe = EggData.recipes[randomKey];
+            return `Feeling adventurous? I recommend you try <strong>${recommendedRecipe.name}</strong>. ${recommendedRecipe.description} Would you like the full recipe?`;
+        }
         
-        const handleEggTypeSelect = (event) => {
-            const selectedEgg = event.currentTarget;
-            UIElements.eggTypes.forEach(e => e.classList.remove('selected'));
-            selectedEgg.classList.add('selected');
-            AppState.baseTime = parseInt(selectedEgg.getAttribute('data-time'), 10);
-            calculateTotalSeconds();
-        };
-        
-        const handleThemeChange = (event) => {
-            const target = event.currentTarget;
-            const primary = target.getAttribute('data-primary');
-            const rgb = target.getAttribute('data-rgb');
-            document.documentElement.style.setProperty('--primary-color', primary);
-            document.documentElement.style.setProperty('--primary-color-rgb', rgb);
-            
-            UIElements.colorPicker.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
-            target.classList.add('selected');
-        };
-
-        // --- AI Chat Functions ---
-        const addMessageToChat = (message, isUser = false) => {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('ai-message', isUser ? 'user-message' : 'ai-message-content');
-            messageElement.innerHTML = message;
-            UIElements.aiResponse.appendChild(messageElement);
-            UIElements.aiResponse.scrollTop = UIElements.aiResponse.scrollHeight;
-        };
-
-        const getAIResponse = (query) => {
-            query = query.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ''); // Sanitize input
-            
-            // 1. Check for timer commands
-            if (query.includes("timer") || query.includes("set") || query.includes("start")) {
-                for (const doneness in EggData.donenessKeywords) {
-                    if (EggData.donenessKeywords[doneness].some(keyword => query.includes(keyword))) {
-                        const targetElement = document.querySelector(`.egg-type[data-id="${doneness}"]`);
-                        if (targetElement) targetElement.click();
-                        startTimer();
-                        return `OK, I've set and started the timer for ${doneness}-boiled eggs!`;
-                    }
+        // Timer command check
+        if (query.includes("timer") || query.includes("set") || query.includes("start")) {
+            for (const doneness in EggData.donenessKeywords) {
+                if (EggData.donenessKeywords[doneness].some(keyword => query.includes(keyword))) {
+                    const targetElement = document.querySelector(`.egg-type[data-id="${doneness}"]`);
+                    if (targetElement) targetElement.click();
+                    startTimer();
+                    return `Of course! I've set and started the timer for perfect ${doneness}-boiled eggs for you.`;
                 }
             }
-            
-            // 2. Check for recipe requests
-            for (const key in EggData.recipes) {
-                if (query.includes(key)) {
-                    const recipe = EggData.recipes[key];
-                    UIElements.nutritionInfo.innerHTML = `<strong>${recipe.name}:</strong> Approx. ${recipe.calories} calories, ${recipe.protein} protein.`;
-                    UIElements.nutritionInfo.style.display = 'block';
-                    return recipe.description;
-                }
-            }
-
-            // 3. Check for tips or general questions
-            if (query.includes("tip") || query.includes("advice") || query.includes("how to")) {
-                return `<strong>Cooking Tip:</strong> ${EggData.tips[Math.floor(Math.random() * EggData.tips.length)]}`;
-            }
-
-            // 4. Greetings
-            if (query.startsWith("hello") || query.startsWith("hi") || query.startsWith("hey")) {
-                return "Hello! I'm ready to help with recipes, tips, and timer commands.";
-            }
-            
-            // 5. Default response
-            UIElements.nutritionInfo.style.display = 'none';
-            return "I'm not quite sure about that. Try asking me for a specific recipe like 'scotch egg', a cooking tip, or ask me to 'set a timer for hard boiled eggs'.";
-        };
-
-        const handleAIQuery = () => {
-            const query = UIElements.aiInput.value.trim();
-            if (!query) return;
-            addMessageToChat(query, true);
-            UIElements.aiInput.value = '';
-
-            setTimeout(() => {
-                const response = getAIResponse(query);
-                addMessageToChat(response);
-            }, 600);
-        };
+        }
         
-        // --- Initialization ---
+        // List all recipes command
+        if (query.includes("list all") || query.includes("show all") || query.includes("all recipes")) {
+            const recipeList = Object.values(EggData.recipes).map(r => `<li>${r.name}</li>`).join('');
+            return `I have a lot of recipes in my database! Here are some of them: <ul>${recipeList}</ul> You can ask me for details on any of them!`;
+        }
 
-        // Setup Event Listeners
-        UIElements.startBtn.addEventListener('click', startTimer);
-        UIElements.stopBtn.addEventListener('click', stopTimer);
-        UIElements.resetBtn.addEventListener('click', resetTimer);
-        UIElements.eggTypes.forEach(egg => egg.addEventListener('click', handleEggTypeSelect));
-        UIElements.colorPicker.querySelectorAll('.color-option').forEach(option => option.addEventListener('click', handleThemeChange));
-        [UIElements.eggSize, UIElements.altitude, UIElements.quantity].forEach(el => el.addEventListener('change', calculateTotalSeconds));
-        UIElements.darkModeToggle.addEventListener('change', () => document.body.classList.toggle('dark-mode'));
-        UIElements.sendAiBtn.addEventListener('click', handleAIQuery);
-        UIElements.aiInput.addEventListener('keypress', (e) => e.key === 'Enter' && handleAIQuery());
+        // Recipe keyword check (improved)
+        for (const key in EggData.recipes) {
+            const recipe = EggData.recipes[key];
+            if (recipe.keywords.some(keyword => query.includes(keyword))) {
+                return `Excellent choice! <strong>${recipe.name}</strong> is a fantastic dish. ${recipe.description}${recipe.details}`;
+            }
+        }
         
-        // Initial call
-        if ('Notification' in window) Notification.requestPermission();
+        // Tip request
+        if (query.includes("tip") || query.includes("advice") || query.includes("help") || query.includes("how to")) {
+            return `Here's a handy tip: ${EggData.tips[Math.floor(Math.random() * EggData.tips.length)]}`;
+        }
+        
+        // Greeting
+        if (["hello", "hi", "hey"].includes(query)) {
+            return "Hello there! What amazing egg dish can I help you with today? Feel free to ask me for a recipe or a cooking tip.";
+        }
+
+        return `I'm not familiar with that. My knowledge base has expanded! Try asking me for 'Breakfast Tacos', 'how to poach an egg', or 'list all recipes' to see what I can do.`;
+    };
+
+    const handleAIQuery = () => {
+        const query = UIElements.aiInput.value.trim();
+        if (!query) return;
+        addMessageToChat(query, true);
+        UIElements.aiInput.value = '';
+
+        const typingIndicator = showTypingIndicator();
+        
+        setTimeout(() => {
+            UIElements.aiResponse.removeChild(typingIndicator);
+            addMessageToChat(getAIResponse(query));
+        }, 1200);
+    };
+
+    // --- Event Handlers & Initialization ---
+    
+    UIElements.eggTypes.forEach(egg => egg.addEventListener('click', (event) => {
+        const selectedEgg = event.currentTarget;
+        UIElements.eggTypes.forEach(e => e.classList.remove('selected'));
+        selectedEgg.classList.add('selected');
+        AppState.baseTime = parseInt(selectedEgg.getAttribute('data-time'), 10);
+        AppState.progressTarget = parseFloat(selectedEgg.getAttribute('data-progress-end'));
         calculateTotalSeconds();
+    }));
 
+    UIElements.colorPicker.querySelectorAll('.color-option').forEach(option => option.addEventListener('click', (event) => {
+        const target = event.currentTarget;
+        const primaryColor = target.dataset.primary;
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        UIElements.colorPicker.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+        target.classList.add('selected');
+    }));
+
+    UIElements.darkModeToggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
     });
-    </script>
+
+    // Customization Panel Toggle
+    UIElements.hideCustomizationBtn.addEventListener('click', () => {
+        UIElements.customizationContent.classList.toggle('is-hidden');
+    });
+
+    UIElements.startBtn.addEventListener('click', startTimer);
+    UIElements.stopBtn.addEventListener('click', stopTimer);
+    UIElements.resetBtn.addEventListener('click', resetTimer);
+    [UIElements.eggSize, UIElements.altitude, UIElements.quantity].forEach(el => el.addEventListener('input', calculateTotalSeconds));
+    UIElements.sendAiBtn.addEventListener('click', handleAIQuery);
+    UIElements.aiInput.addEventListener('keypress', (e) => e.key === 'Enter' && handleAIQuery());
+    
+    // Initial Setup
+    if ('Notification' in window) Notification.requestPermission();
+    calculateTotalSeconds();
+});
+</script>
+
+<!-- Service worker definition -->
+<script>
+    // This self-contained script will be registered as the service worker.
+    const swCode = `
+    let timerTimeout;
+
+    self.addEventListener('message', event => {
+        const { command, seconds } = event.data;
+        if (command === 'start') {
+            clearTimeout(timerTimeout); 
+            timerTimeout = setTimeout(() => {
+                self.registration.showNotification('Eggs are Ready!', {
+                    body: 'Your perfectly cooked eggs are waiting for you.',
+                    icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath fill="%23ff9f43" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0z"/%3E%3C/svg%3E'
+                });
+            }, seconds * 1000);
+        } else if (command === 'stop') {
+            clearTimeout(timerTimeout);
+        }
+    });
+    `;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register(swUrl).then(reg => {
+            console.log('Inline Service Worker registered successfully.');
+        }).catch(error => {
+            console.log('Inline Service Worker registration failed:', error);
+        });
+    }
+</script>
+
 </body>
 </html>
