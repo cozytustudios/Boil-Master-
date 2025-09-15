@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ff9f43; /* Default Orange */
+            --primary-color: #8c003d; /* Default Orange */
             --secondary-color: #feca57;
             --accent-color: #ff6b6b;
-            --background-start: #fdefe0;
-            --background-end: #fbd6b1;
+            --background-start:#ff6da7;
+            --background-end: #ff9f3f;
             --text-color: #3d3d3d;
             --card-bg: rgba(255, 255, 255, 0.25); /* More transparent */
             --card-shadow: rgba(45, 52, 54, 0.1);
@@ -80,7 +80,24 @@
 
         header { text-align: center; margin-bottom: 2rem; animation: fadeIn 1s ease-out; }
         h1 { font-family: 'Poppins', sans-serif; font-size: clamp(2.2rem, 6vw, 3.2rem); margin-bottom: 0.25rem; font-weight: 700; text-shadow: 0 2px 15px rgba(0,0,0,0.1);}
-        .tagline { font-size: clamp(1rem, 3.5vw, 1.2rem); opacity: 0.8; }
+        .tagline { font-size: clamp(1rem, 3.5vw, 1.2rem); opacity: 0.8; margin-bottom: 1rem; }
+        
+        .egg-master-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0, 0.15);
+            transition: all 0.2s ease-in-out;
+            display: inline-block;
+        }
+        
+        .egg-master-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px color-mix(in srgb, var(--primary-color) 40%, #000);
+        }
 
         .card {
             background: var(--card-bg);
@@ -261,6 +278,7 @@
         <header>
             <h1>Ultimate Egg Boiler Pro</h1>
             <p class="tagline">Perfect eggs, intelligently timed, with a world of recipes at your fingertips.</p>
+            <a href="1.html" class="egg-master-btn">Egg Master</a>
         </header>
 
         <!-- Settings Card -->
@@ -323,14 +341,14 @@
         <!-- AI Chat Card -->
         <div class="card" id="aiBoiler">
             <h2 class="section-title"><i class="fas fa-robot"></i>Optichain Boiler AI</h2>
-            <p style="text-align:center;">Chat with our AI chef for global recipes, tips, or timer commands!</p>
+            <p style="text-align:center;">Ask "What can I make with eggs and bread?"</p>
             <div class="ai-response" id="aiResponse">
                 <div class="ai-message ai-message-content">
-                    Hello! I've been trained with many new recipes. You can now ask me for **Bibimbap**, **Breakfast Tacos**, **Deviled Eggs**, or simply "how to scramble eggs." How can I help you today?
+                    Hello! I've been upgraded. You can now ask me for recommendations based on the ingredients you have. How can I help you today?
                 </div>
             </div>
             <div class="ai-input-container">
-                <input type="text" id="aiInput" placeholder="Ask 'How to make Bibimbap?'...">
+                <input type="text" id="aiInput" placeholder="I have eggs, cheese, tortillas...">
                 <button id="sendAiBtn" aria-label="Send message to AI"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
@@ -411,105 +429,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const EggData = {
         recipes: {
-            // --- NEW RECIPES FROM LOVEANDLEMONS.COM ---
+            // --- AI DATA ENHANCED WITH INGREDIENTS ---
             scrambledeggs: {
                 name: "Perfect Scrambled Eggs",
                 keywords: ["scrambled", "scramble", "fluffy"],
+                ingredients: ["egg", "milk", "butter"],
                 description: "A breakfast classic. Making them is easy, but a few simple tricks take them from good to great!",
                 details: `<strong>Ingredients:</strong><ul><li>2 large Eggs</li><li>2 tsp Milk (optional)</li><li>1/2 tbsp Butter</li><li>Salt and freshly ground black pepper</li></ul><strong>Instructions:</strong><ol><li>Lightly whisk the eggs, milk (if using), salt, and pepper.</li><li>Melt the butter in a small nonstick skillet over medium-low heat.</li><li>Pour in the egg mixture. Let cook for a few seconds without stirring.</li><li>Gently pull the eggs across the pan with a spatula until large, soft curds form.</li><li>Remove from the heat when they are still slightly moist. They will continue to cook. Serve immediately.</li></ol>`
             },
-            sunnysideup: {
-                name: "Sunny-Side-Up Eggs",
-                keywords: ["sunny side up", "fried egg", "runny yolk"],
-                description: "The perfect fried egg with a beautiful, runny yolk and fully cooked whites.",
-                details: `<strong>Ingredients:</strong><ul><li>1 tbsp Olive Oil or Butter</li><li>2 large Eggs</li><li>Salt and freshly ground black pepper</li></ul><strong>Instructions:</strong><ol><li>Heat oil or butter in a skillet over medium-low heat.</li><li>Crack the eggs into the pan, being careful not to break the yolks.</li><li>Cook for 2 to 3 minutes, until the whites are set.</li><li>For a gentler cook, you can cover the pan for the last minute to help steam the tops of the whites.</li><li>Season with salt and pepper and serve.</li></ol>`
-            },
-            poachedeggs: {
-                name: "How to Poach an Egg",
-                keywords: ["poached", "poach"],
-                description: "Master the art of poaching for a healthy and elegant egg preparation.",
-                details: `<strong>Ingredients:</strong><ul><li>1 large Egg</li><li>1 tsp White Vinegar (optional, but helps)</li></ul><strong>Instructions:</strong><ol><li>Bring a pot of water to a simmer (not a rolling boil). Add a splash of vinegar.</li><li>Crack an egg into a small bowl.</li><li>Stir the water to create a gentle vortex. Carefully slide the egg into the center.</li><li>Cook for about 3-4 minutes for a runny yolk and set whites.</li><li>Remove with a slotted spoon and gently pat dry.</li></ol>`
+             shakshuka: {
+                name: "Shakshuka",
+                keywords: ["shakshuka", "middle east", "north africa", "poached"],
+                 ingredients: ["egg", "onion", "pepper", "garlic", "tomato", "tomato sauce"],
+                description: "A delicious dish of eggs poached in a flavorful tomato and pepper sauce.",
+                details: `<strong>Ingredients:</strong><ul><li>1 tbsp Olive Oil</li><li>1 large Onion, chopped</li><li>1 red Bell Pepper, chopped</li><li>3 cloves Garlic, minced</li><li>1 tsp Cumin & Paprika</li><li>1 (28-ounce) can Crushed Tomatoes</li><li>6 large Eggs</li><li>Feta cheese and Parsley for garnish</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a large skillet. Sauté onion and bell pepper until soft.</li><li>Stir in garlic and spices. Pour in tomatoes, season, and simmer for 10 minutes.</li><li>Make small wells in the sauce and crack an egg into each one.</li><li>Cover and cook for 5-8 minutes, until egg whites are set but yolks are runny.</li><li>Garnish and serve with crusty bread.</li></ol>`
             },
             avocadotoast: {
                 name: "Avocado Toast with Egg",
                 keywords: ["avocado toast", "toast"],
+                ingredients: ["egg", "bread", "avocado", "toast"],
                 description: "A popular, satisfying, and nutritious breakfast or lunch.",
                 details: `<strong>Ingredients:</strong><ul><li>1 slice good-quality Bread, toasted</li><li>1/2 Avocado</li><li>1 Egg, cooked your favorite way</li><li>Salt, pepper, and red pepper flakes to taste</li></ul><strong>Instructions:</strong><ol><li>Mash the avocado with a fork and spread it on the toast.</li><li>Season with salt and pepper.</li><li>Top with a sunny-side-up, poached, or fried egg.</li><li>Sprinkle with red pepper flakes if desired.</li></ol>`
             },
             breakfasttacos: {
                 name: "Breakfast Tacos",
                 keywords: ["breakfast tacos", "taco"],
+                ingredients: ["egg", "tortilla", "salsa", "avocado", "cheese", "taco"],
                 description: "A fun, flavorful, and satisfying breakfast dish that’s easy to customize.",
                 details: `<strong>Ingredients:</strong><ul><li>4 small Corn or Flour Tortillas</li><li>4 Eggs, scrambled</li><li>Toppings: salsa, avocado, cheese, cilantro</li></ul><strong>Instructions:</strong><ol><li>Warm the tortillas in a dry skillet or microwave.</li><li>Prepare scrambled eggs.</li><li>Assemble the tacos by filling each tortilla with eggs and your desired toppings.</li></ol>`
-            },
-            breakfastburrito: {
-                name: "Breakfast Burrito",
-                keywords: ["breakfast burrito", "burrito"],
-                description: "A hearty, portable breakfast packed with eggs, potatoes, and other delicious fillings.",
-                details: `<strong>Ingredients:</strong><ul><li>1 large Flour Tortilla</li><li>2 Eggs, scrambled</li><li>1/4 cup cooked Potato, diced</li><li>1/4 cup cooked Black Beans</li><li>Shredded cheese and salsa</li></ul><strong>Instructions:</strong><ol><li>Warm the tortilla. Layer the cheese, eggs, potatoes, and beans down the center.</li><li>Top with salsa. Fold in the sides of the tortilla, then tightly roll it up.</li><li>You can grill it in a pan for a minute per side to seal it and make it crispy.</li></ol>`
-            },
-             migas: {
-                name: "Migas",
-                keywords: ["migas", "tex-mex", "tortilla strips"],
-                description: "A traditional Tex-Mex breakfast of eggs scrambled with crispy tortilla strips and veggies.",
-                details: `<strong>Ingredients:</strong><ul><li>3 Corn Tortillas, cut into strips</li><li>2 tbsp Olive Oil</li><li>2 Eggs, whisked</li><li>1/4 Onion, chopped</li><li>1 Jalapeño, chopped</li><li>Toppings: Cotija cheese, cilantro, avocado</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a skillet and fry the tortilla strips until crisp. Remove and set aside.</li><li>Sauté the onion and jalapeño in the same pan until soft.</li><li>Return half the tortilla strips to the pan. Pour over the eggs and scramble until just set.</li><li>Serve topped with the remaining crispy strips and other toppings.</li></ol>`
-            },
-            eggsalad: {
-                name: "Best Egg Salad",
-                keywords: ["egg salad", "salad sandwich"],
-                description: "A classic, creamy, and flavorful egg salad, perfect for sandwiches or lettuce wraps.",
-                details: `<strong>Ingredients:</strong><ul><li>6 Hard-Boiled Eggs, peeled and chopped</li><li>1/4 cup Mayonnaise</li><li>1 tsp Dijon Mustard</li><li>2 tbsp chopped Celery</li><li>2 tbsp chopped Red Onion</li><li>Salt and pepper</li></ul><strong>Instructions:</strong><ol><li>In a medium bowl, stir together the mayonnaise, mustard, celery, red onion, salt, and pepper.</li><li>Gently fold in the chopped hard-boiled eggs.</li><li>Serve chilled. Fantastic on a sandwich with lettuce and tomato!</li></ol>`
             },
             deviledeggs: {
                 name: "Deviled Eggs",
                 keywords: ["deviled eggs", "appetizer", "party food"],
+                 ingredients: ["egg", "mayonnaise", "mustard", "vinegar"],
                 description: "A classic party appetizer that's always a crowd-pleaser.",
                 details: `<strong>Ingredients:</strong><ul><li>6 Hard-Boiled Eggs</li><li>3 tbsp Mayonnaise</li><li>1 tsp Dijon Mustard</li><li>1 tsp White Vinegar</li><li>Paprika, for garnish</li></ul><strong>Instructions:</strong><ol><li>Halve the hard-boiled eggs lengthwise. Remove the yolks and place them in a small bowl.</li><li>Mash the yolks with a fork. Mix in the mayonnaise, mustard, and vinegar until smooth. Season with salt and pepper.</li><li>Pipe or spoon the yolk mixture back into the egg white halves.</li><li>Garnish with a sprinkle of paprika.</li></ol>`
             },
              bibimbap: {
                 name: "Bibimbap (Korean Mixed Rice)",
                 keywords: ["bibimbap", "korean", "rice bowl"],
+                 ingredients: ["egg", "rice", "spinach", "carrot", "mushroom", "gochujang"],
                 description: "A signature Korean dish. The name translates to 'mixed rice with meat and assorted vegetables.'",
                 details: `<strong>Ingredients:</strong><ul><li>1 cup cooked Rice</li><li>Assorted vegetables (spinach, carrots, mushrooms), sautéed</li><li>A sunny-side-up Egg</li><li>Gochujang (Korean chili paste) to taste</li><li>Sesame oil</li></ul><strong>Instructions:</strong><ol><li>Place the hot cooked rice in a bowl.</li><li>Artfully arrange the sautéed vegetables on top of the rice.</li><li>Place a freshly cooked sunny-side-up egg in the center.</li><li>Serve with gochujang and a drizzle of sesame oil. Mix everything together before eating.</li></ol>`
             },
-            friedrice: {
-                name: "Egg Fried Rice",
-                keywords: ["fried rice", "chinese", "takeout"],
-                description: "A takeout classic that’s easy to make at home. The key is using day-old, chilled rice.",
-                details: `<strong>Ingredients:</strong><ul><li>2 cups cooked and chilled Rice</li><li>1 tbsp Sesame Oil</li><li>2 Eggs, whisked</li><li>1 cup frozen Peas and Carrots</li><li>2 cloves Garlic, minced</li><li>2 tbsp Soy Sauce</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a large skillet or wok. Add garlic and cook until fragrant.</li><li>Push the garlic aside and pour in the eggs, scrambling them.</li><li>Add the rice and vegetables, breaking up any clumps. Stir-fry for 3-5 minutes.</li><li>Stir in the soy sauce. Serve immediately.</li></ol>`
-            },
-            // --- UPDATED AND EXISTING RECIPES ---
             frittata: {
                 name: "Italian Frittata",
                 keywords: ["frittata", "italian", "crustless", "quiche", "baked"],
+                 ingredients: ["egg", "milk", "cream", "cheese", "veggie", "spinach", "sausage"],
                 description: "A versatile Italian egg-based dish similar to a crustless quiche, filled with your choice of ingredients.",
                 details: `<strong>Ingredients:</strong><ul><li>8 large Eggs</li><li>1/4 cup Milk or Cream</li><li>1/2 cup Grated Parmesan Cheese</li><li>2 cups of Fillings (e.g., cooked veggies, sausage, spinach)</li><li>1 tbsp Olive Oil</li></ul><strong>Instructions:</strong><ol><li>Preheat oven to 375°F (190°C).</li><li>Whisk eggs, milk, cheese, salt, and pepper.</li><li>In an oven-safe skillet, sauté your fillings.</li><li>Pour egg mixture over the fillings. Cook on stovetop for 3-5 minutes until edges set.</li><li>Transfer to oven and bake for 10-15 minutes until set.</li></ol>`
-            },
-            shakshuka: {
-                name: "Shakshuka",
-                keywords: ["shakshuka", "middle east", "north africa", "poached"],
-                description: "A delicious dish of eggs poached in a flavorful tomato and pepper sauce.",
-                details: `<strong>Ingredients:</strong><ul><li>1 tbsp Olive Oil</li><li>1 large Onion, chopped</li><li>1 red Bell Pepper, chopped</li><li>3 cloves Garlic, minced</li><li>1 tsp Cumin & Paprika</li><li>1 (28-ounce) can Crushed Tomatoes</li><li>6 large Eggs</li><li>Feta cheese and Parsley for garnish</li></ul><strong>Instructions:</strong><ol><li>Heat oil in a large skillet. Sauté onion and bell pepper until soft.</li><li>Stir in garlic and spices. Pour in tomatoes, season, and simmer for 10 minutes.</li><li>Make small wells in the sauce and crack an egg into each one.</li><li>Cover and cook for 5-8 minutes, until egg whites are set but yolks are runny.</li><li>Garnish and serve with crusty bread.</li></ol>`
-            },
-            huevosrancheros: {
-                name: "Huevos Rancheros",
-                keywords: ["huevos rancheros", "mexican", "rancher", "fried", "tortilla"],
-                description: "Fried eggs served on corn tortillas and smothered in a tomato-chili sauce.",
-                details: `<strong>Ingredients:</strong><ul><li>4 Corn Tortillas</li><li>4 Eggs</li><li>1 (15-ounce) can Fire-Roasted Tomatoes</li><li>1/2 Onion, chopped</li><li>1 Jalapeño, minced</li><li>Toppings: beans, avocado, cotija cheese</li></ul><strong>Instructions:</strong><ol><li>Make the sauce: Sauté onion and jalapeño, add tomatoes and simmer.</li><li>Lightly fry tortillas and set aside. Fry eggs to your liking.</li><li>To serve, place tortillas on a plate, top with eggs, and spoon sauce over them.</li></ol>`
-            },
-            menemen: {
-                name: "Menemen (Turkey)",
-                keywords: ["menemen", "turkish", "scrambled", "tomato"],
-                description: "A traditional Turkish dish of eggs scrambled with tomatoes, peppers, and spices.",
-                details: `<strong>Ingredients:</strong><ul><li>4 Eggs, lightly beaten</li><li>4 ripe Tomatoes, grated</li><li>2 Green Bell Peppers, chopped</li><li>1 large Onion, chopped</li><li>2 tbsp Olive Oil</li></ul><strong>Instructions:</strong><ol><li>In a pan, sauté onion and peppers until very soft.</li><li>Add tomatoes and spices, and cook until a thick sauce forms.</li><li>Pour in the beaten eggs. Cook, stirring gently, until softly set but still moist.</li><li>Serve immediately in the pan with bread.</li></ol>`
             }
         },
         tips: [
             "For fluffier scrambled eggs, whisk them vigorously for a full minute to incorporate more air.",
-            "Use day-old, chilled rice for the best fried rice. Fresh rice has too much moisture and will steam instead of fry.",
             "A splash of vinegar in your poaching water helps the egg whites coagulate faster, leading to a neater shape.",
-            "For easier peeling, use eggs that are a week or two old. The membrane is less attached to the shell.",
-            "To prevent the green ring around hard-boiled yolks, cool the eggs immediately in an ice bath after cooking."
+            "For easier peeling, use eggs that are a week or two old. The membrane is less attached to the shell."
         ],
         donenessKeywords: {
             soft: ["soft", "runny", "dippy", "4-min"],
@@ -613,12 +587,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const getAIResponse = (query) => {
         query = query.toLowerCase().replace(/[^a-zA-Z0-9\s-]/g, '').trim();
 
-        // AI Recommendation Engine
-        if (query.includes("recommend") || query.includes("suggest") || query.includes("inspire") || query.includes("what should i make")) {
-            const recipeKeys = Object.keys(EggData.recipes);
-            const randomKey = recipeKeys[Math.floor(Math.random() * recipeKeys.length)];
-            const recommendedRecipe = EggData.recipes[randomKey];
-            return `Feeling adventurous? I recommend you try <strong>${recommendedRecipe.name}</strong>. ${recommendedRecipe.description} Would you like the full recipe?`;
+        // --- NEW: Ingredient-based recommendation logic ---
+        const ingredientTriggers = ["i have", "i've got", "i got", "with", "and"];
+        if (ingredientTriggers.some(trigger => query.includes(trigger))) {
+            let bestMatch = null;
+            let maxMatchCount = 0;
+
+            Object.values(EggData.recipes).forEach(recipe => {
+                let currentMatchCount = 0;
+                recipe.ingredients.forEach(ingredient => {
+                    // Check for singular and plural forms for better matching
+                    if (query.includes(ingredient) || query.includes(ingredient + 's')) {
+                        currentMatchCount++;
+                    }
+                });
+
+                if (currentMatchCount > maxMatchCount) {
+                    maxMatchCount = currentMatchCount;
+                    bestMatch = recipe;
+                }
+            });
+
+            if (bestMatch && maxMatchCount > 1) { // Require at least 2 ingredients for a confident match
+                return `Based on your ingredients, you could make <strong>${bestMatch.name}</strong>! ${bestMatch.description} Ask me for the full recipe if that sounds good.`;
+            } else {
+                 return "That's a good start! If you tell me more about what you have, I can give you a better recommendation. For example, 'I have eggs, cheese, and tortillas.'";
+            }
         }
         
         // Timer command check
@@ -633,13 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // List all recipes command
-        if (query.includes("list all") || query.includes("show all") || query.includes("all recipes")) {
-            const recipeList = Object.values(EggData.recipes).map(r => `<li>${r.name}</li>`).join('');
-            return `I have a lot of recipes in my database! Here are some of them: <ul>${recipeList}</ul> You can ask me for details on any of them!`;
-        }
-
-        // Recipe keyword check (improved)
+        // Recipe keyword check
         for (const key in EggData.recipes) {
             const recipe = EggData.recipes[key];
             if (recipe.keywords.some(keyword => query.includes(keyword))) {
@@ -657,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return "Hello there! What amazing egg dish can I help you with today? Feel free to ask me for a recipe or a cooking tip.";
         }
 
-        return `I'm not familiar with that. My knowledge base has expanded! Try asking me for 'Breakfast Tacos', 'how to poach an egg', or 'list all recipes' to see what I can do.`;
+        return "I'm not quite sure about that. You can ask me for a recipe like 'shakshuka', or tell me what ingredients you have so I can recommend something!";
     };
 
     const handleAIQuery = () => {
@@ -697,7 +685,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('dark-mode');
     });
 
-    // Customization Panel Toggle
     UIElements.hideCustomizationBtn.addEventListener('click', () => {
         UIElements.customizationContent.classList.toggle('is-hidden');
     });
